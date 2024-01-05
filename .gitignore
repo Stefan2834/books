@@ -1,0 +1,6 @@
+node_modules/
+
+server-second/
+server/
+.next/
+.vscode/
