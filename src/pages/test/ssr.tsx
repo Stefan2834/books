@@ -30,9 +30,6 @@ export const getServerSideProps: GetServerSideProps<DataProps> = async (context)
 	const session = await getSession(context);
 
 
-
-
-
 	try {
 		const req = await axios.get('http://localhost:9000/data', { headers: { authorization: `Bearer ${session?.user?.accessToken}` } })
 		if (req.data.success) {

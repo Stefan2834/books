@@ -15,16 +15,16 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class HeaderConfig implements HandlerInterceptor {
     
     private final ObjectMapper jsonMapper = new ObjectMapper();
-
+    
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
+        
         
         if (request.getRequestURI().startsWith("/login")) {
             return true;
         }
-        
         String authorizationHeader = request.getHeader("Authorization");
-
+//
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             Response<String> res = new Response<>(false, "Access token not found");
             response.setContentType("application/json");
@@ -33,7 +33,7 @@ public class HeaderConfig implements HandlerInterceptor {
             return false;
         }
 
-    
+
         String token = authorizationHeader.substring("Bearer ".length());
 
         if (!isValidJwt(token)) {
@@ -69,8 +69,8 @@ public class HeaderConfig implements HandlerInterceptor {
             return false;
         }
     }
-
-
+    
+    
     record Response<T>(boolean success, T data) {
     }
 }

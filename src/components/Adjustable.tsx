@@ -1,9 +1,10 @@
 import { useDefault } from '@/contexts/Default'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 export default function Adjustable({ children }: { children: React.ReactNode }) {
     const { navbar, phone } = useDefault()
-
+    const router = useRouter()
 
     if (phone) {
         return (
@@ -13,8 +14,8 @@ export default function Adjustable({ children }: { children: React.ReactNode }) 
         )
     } else {
         return (
-            <div className={navbar ? 'ml-80' : 'ml-24'}
-                style={{ transition: "400ms ease", width: "100%", height: "100%" }}
+            <div className={`${navbar ? 'ml-80' : 'ml-24'} trans-cubic-second`}
+                style={{ width: `calc(100% - ${navbar ? "320px" : "96px"})`, height: "100%", marginTop: router.asPath.includes("/connect") ? "0px" : "56px" }}
             >
                 {children}
             </div>

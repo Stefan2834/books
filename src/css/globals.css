@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  padding: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::selection {
+  background-color: #711DB0;
+  color: white;
+}
+
+:root {
+  --main: #f6f6f6;
+  --main-oposite: #131313;
+}
+
+.main {
+  background-color: var(--main);
+}
+
+.main-oposite {
+  color: var(--main-oposite);
+}
+
+.main-color {
+  color: var(--main);
+}
+
+.main-color-oposite {
+  color: var(--main-oposite);
+}
+
+.transition {
+  transition: 400ms ease;
+}
+
+.trans-cubic {
+  transition: cubic-bezier(.29, .48, .47, 1.16) 400ms width;
+}
+
+.trans-cubic-second {
+  transition: cubic-bezier(.29, .48, .47, 1.16) 400ms;
+}
+
+.ocean {
+  background-image: url(../svg/ocean.jpg);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: darken;
+}
+
+.ocean-dark {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ocean-light {
+  background-color: rgba(0, 0, 0, 0.4);
+}

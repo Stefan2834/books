@@ -8,7 +8,7 @@ export default function Index() {
     if (session) {
         router.push('/main')
     } else {
-        router.push('/login')
+        router.push('/connect/login')
     }
 
     return null

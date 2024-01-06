@@ -1,6 +1,6 @@
-import '../app/globals.css'
+import '../css/globals.css'
 import Layout from '../components/Layout'
-import { useState, useEffect, useRef, ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { SessionProvider } from 'next-auth/react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DefaultProvider } from '@/contexts/Default';
@@ -17,6 +17,29 @@ const theme = createTheme({
     typography: {
         fontFamily: 'Poppins, sans-serif',
     },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                }
+            }
+        }
+    },
+    palette: {
+        primary: {
+            main: '#711DB0',
+        },
+        secondary: {
+            main: '#C21292',
+        },
+        error: {
+            main: '#EF4040',
+        },
+        warning: {
+            main: '#FFA732',
+        },
+    }
 });
 
 

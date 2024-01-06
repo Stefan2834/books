@@ -13,10 +13,10 @@ const Protected: React.FC<ReactChildren> = ({ children }) => {
 
     if(data?.user || status !== "loading") {
         const isAuthenticated = data?.user;
-        if (!isAuthenticated && router.pathname !== '/login') {
-            router.push('/login');
+        if (!isAuthenticated && !router.asPath.includes("/connect")) {
+            router.push('/connect/login');
             return null
-        } else if(isAuthenticated && router.pathname === '/login') {
+        } else if(isAuthenticated && router.pathname.includes("/connect")) {
             router.push('/main')
             return null
         }

@@ -24,6 +24,6 @@ public class MongoConfig {
                 .applyConnectionString(connectionString)
                 .build();
 
-        return new MongoTemplate(MongoClients.create(mongoClientSettings), "maraton");
+        return new MongoTemplate(MongoClients.create(mongoClientSettings), "books");
     }
 }

@@ -45,6 +45,13 @@ public class LoginController {
     long refreshExpire = 1000 * 60 * 60 * 24 * 7;
     private static final int HS256_KEY_SIZE = 256;
     
+    @GetMapping
+    ResponseEntity<DataController.Response<?>> getJson() {
+        List<MyEntity> result = myEntityService.findAll();
+        DataController.Response<List<MyEntity>> response = new DataController.Response<>(true, result);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
     
     @PostMapping("/register")
     ResponseEntity<Response<String>> registerJson(@RequestBody Data userData) {
@@ -77,11 +84,11 @@ public class LoginController {
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
                 Response<String> response = new Response<>(false, "Incorrect password");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
         } else {
             Response<String> response = new Response<>(false, "Username not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
     }
     

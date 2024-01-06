@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from '../css/Navbar.module.css'
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { useDefault } from '@/contexts/Default';
-
-
+import Theme from '../components/Theme'
 
 import {
     Box,
@@ -19,26 +18,44 @@ import {
 } from '@mui/material';
 
 
-import home from '../svg/light/arch-bg.jpg'
-import mail from '../svg/light/arch-bg.jpg'
-import settings from '../svg/light/arch-bg.jpg'
-import doubleRight from '../svg/light/arch-bg.jpg'
-import search from '../svg/light/arch-bg.jpg'
-import message from '../svg/light/arch-bg.jpg'
-import userImg from '../svg/light/arch-bg.jpg'
+import home from '../svg/light/double-right.svg'
+import mail from '../svg/light/double-right.svg'
+import settings from '../svg/light/double-right.svg'
+import search from '../svg/light/double-right.svg'
+import message from '../svg/light/double-right.svg'
+import userImg from '../svg/light/double-right.svg'
 
 
-import homeActive from '../svg/light/arch-bg.jpg'
-import settingsActive from '../svg/light/arch-bg.jpg'
-import userActive from '../svg/light/arch-bg.jpg'
-import messageActive from '../svg/light/arch-bg.jpg'
-import mailActive from '../svg/light/arch-bg.jpg'
-import searchActive from '../svg/light/arch-bg.jpg'
+import homeActive from '../svg/light/double-right.svg'
+import settingsActive from '../svg/light/double-right.svg'
+import userActive from '../svg/light/double-right.svg'
+import messageActive from '../svg/light/double-right.svg'
+import mailActive from '../svg/light/double-right.svg'
+import searchActive from '../svg/light/double-right.svg'
+
+
+
+
+import doubleRight from '../svg/light/double-right.svg'
+
+import doubleRightDark from '../svg/dark/double-right.svg'
+
+import logout from '../svg/light/logout.svg'
+import user from '../svg/light/user.svg'
+import money from '../svg/light/paper-money-two.svg'
+import lightning from '../svg/light/lightning.svg'
+
+
+import logoutDark from '../svg/dark/logout.svg'
+import userDark from '../svg/dark/user.svg'
+import moneyDark from '../svg/dark/paper-money-two.svg'
+import lightningDark from '../svg/dark/lightning.svg'
 
 
 export default function Navbar() {
-    const { navbar, setNavbar, phone, setPhone } = useDefault(); 
+    const { navbar, setNavbar, phone, setPhone, colors, dark } = useDefault();
     const router = useRouter()
+    const { data: session } = useSession()
 
     useEffect(() => {
         const handleResize = () => {
@@ -64,78 +81,148 @@ export default function Navbar() {
     return (
         <>
             {!phone ? (
-                <Paper elevation={10} sx={{ transition: "400ms ease width", zIndex: 10 }} className={navbar ? `${styles.navbar}` : `${styles.navbarClosed}`}>
-                    <Button sx={{ textTransform: 'none', position: "absolute", color: "black", transition: "400ms ease", left: 20 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute top-2'
-                        onClick={() => { changePath('/'); signOut() }}
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={home} alt='Poza' width='40' height='40' className='trans' />
-                        </div>
-                        <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Chat-app</div>
-                    </Button>
-                    <Link href={'/main/home'} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath === '/main/home' ? homeActive : home} alt="Poza" width="40" height="40" />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath === '/main/home' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Home</div>
-                    </Link>
-                    <Link href={'/main/messages'} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath.includes('/main/messages') ? messageActive : message} alt='Poza' width='40' height='40' />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath.includes('/main/messages') ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Messages</div>
-                    </Link>
-                    <Link href={'/main/users'} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath === '/main/users' ? searchActive : search} alt='Poza' width='40' height='40' />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath === '/main/users' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Users</div>
-                    </Link>
-                    <Link href={'/main/notifications'} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath === '/main/notifications' ? mailActive : mail} alt='Poza' width='40' height='40' />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath === '/main/notifications' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Notifications</div>
-                    </Link>
-                    <Link href={`/main/users/`} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath === `/main/users/` ? userActive : userImg} alt='Poza' width='40' height='40' />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath === `/main/users/` ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Profile</div>
-                    </Link>
-                    <Link href={'/main/settings'} style={{ textTransform: 'none', color: "black", transition: "400ms ease", margin: "8px 0", position: 'relative', left: -10 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2'
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            <Image src={router.asPath === '/main/settings' ? settingsActive : settings} alt='Poza' width='40' height='40' />
-                        </div>
-                        <div className={`h-10 w-60 ${router.asPath === '/main/settings' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Settings</div>
-                    </Link>
-                    <Button sx={{ textTransform: 'none', position: "absolute", color: "black", transition: "400ms ease", left: 20 }}
-                        className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute bottom-2'
-                        onClick={() => setNavbar(!navbar)}
-                    >
-                        <div className='h-10 w-14 mx-2 flex items-center'>
-                            {navbar ? (
-                                <Image src={doubleRight} alt='Poza' width='40' height='40' className='rotate-180 trans' />
-                            ) : (
-                                <Image src={doubleRight} alt='Poza' width='40' height='40' className='trans' />
-                            )}
-                        </div>
-                        <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Collapse</div>
-                    </Button>
-                </Paper>
+                <>
+                    {!router.asPath.includes("/connect") && (
+                        <>
+                            <div className='fixed top-0 left-0 h-14 z-40 main trans-cubic' style={navbar ? { width: "320px" } : { width: "96px" }} />
+                            <div style={navbar ? { width: "calc(100% - 320px" } : { width: "calc(100% - 96px)" }}
+                                className='h-14 main z-10 flex items-center justify-between top-0 right-0 fixed shadow-xl trans-cubic'
+                            >
+                                <div className='mx-6 flex items-center justify-end w-full'>
+                                    <Button sx={{
+                                        margin: "0 4px", width: "90px", color: colors[1],
+                                        fontWeight: "600", fontSize: "16px", lineHeight: "18px"
+                                    }} onClick={() => router.push("/main")}
+                                        className='w-16 h-10 cursor-pointer'
+                                    >
+                                        <Image src={dark ? moneyDark : money} alt='Poza' width='30' height='30' />
+                                        <div className='ml-2'>60</div>
+                                    </Button>
+                                    <Button sx={{
+                                        margin: "0 4px", width: "90px", color: colors[1],
+                                        fontWeight: "600", fontSize: "16px", lineHeight: "18px"
+                                    }} onClick={() => router.push("/main")}
+                                        className='w-16 h-10 cursor-pointer'
+                                    >
+                                        <Image src={dark ? lightningDark : lightning} alt='Poza' width='30' height='30' />
+                                        <div className='ml-2'>145</div>
+                                    </Button>
+                                    <div className='flex items-center justify-center pl-6 mx-10'>
+                                        <Theme />
+                                    </div>
+                                    <Button sx={{
+                                        margin: "0 4px", width: "auto", maxWidth: "200px", color: colors[1],
+                                        fontWeight: "600", fontSize: "16px", lineHeight: "18px", display: "flex", justifyContent: "flex-start"
+                                    }} onClick={() => router.push("/main")}
+                                        className='w-16 h-10 cursor-pointer'
+                                    >
+                                        <Image src={dark ? userDark : user} alt='Poza' width='30' height='30' />
+                                        <div className='ml-2 truncate'>{session?.user?.username}</div>
+                                    </Button>
+                                    <Button sx={{
+                                        margin: "0 4px", width: "90px", color: colors[1],
+                                        fontWeight: "600", fontSize: "16px", lineHeight: "18px"
+                                    }} onClick={() => signOut()}
+                                        className='w-16 h-10 cursor-pointer'
+                                    >
+                                        <Image src={dark ? logoutDark : logout} alt='Poza' width='30' height='30' />
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                    <div className={`${navbar ? styles.navbar : styles.navbarClosed} trans-cubic ${router.asPath.includes("/connect") ? "h-full mt-0" : "h-[calc(100% - 56px)] mt-14"}`}>
+                        <Button sx={{ textTransform: 'none', position: "absolute", left: 20, color: colors[1], transition: "400ms ease" }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute top-2'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Books</div>
+                        </Button>
+                        <Divider orientation="horizontal" flexItem sx={{ backgroundColor: colors[1], mb: 1 }} />
+                        <Link href={'/main/home'} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt="Poza" width="40" height="40" />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/home' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Home</div>
+                        </Link>
+                        <Link href={'/main/messages'} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath.includes('/main/messages') ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Messages</div>
+                        </Link>
+                        <Link href={'/main/users'} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/users' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Users</div>
+                        </Link>
+                        <Link href={'/main/notifications'} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/notifications' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Notifications</div>
+                        </Link>
+                        <Link href={`/main/users/`} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath === `/main/users/` ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Profile</div>
+                        </Link>
+                        <Link href={'/main/settings'} style={{
+                            textTransform: 'none', color: colors[1],
+                            margin: "8px 0", position: 'relative', left: -10
+                        }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                            </div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/settings' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Settings</div>
+                        </Link>
+                        <Divider orientation="horizontal" flexItem sx={{ backgroundColor: colors[1], mt: 1 }} />
+                        <Button sx={{ textTransform: 'none', position: "absolute", color: colors[1], transition: "400ms ease", left: 20 }}
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute bottom-2'
+                            onClick={() => setNavbar(!navbar)}
+                        >
+                            <div className='h-10 w-14 mx-2 flex items-center'>
+                                {navbar ? (
+                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' className='rotate-180 transition' />
+                                ) : (
+                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' className='transition' />
+                                )}
+                            </div>
+                            <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Collapse</div>
+                        </Button>
+                    </div>
+                </>
             ) : (
                 <>
                     <Box sx={{ zIndex: '20', height: '100%' }}

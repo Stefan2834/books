@@ -5,6 +5,7 @@ export const useRefreshToken = () => {
     const { data: session, update } = useSession();
 
     const refreshToken = async () => {
+        console.log("HERE")
         try {
 
             const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER}/login/refresh`, {
@@ -12,13 +13,14 @@ export const useRefreshToken = () => {
             });
             if (session && res?.data?.success) {
                 console.log('REFRESHING ACCESS TOKEN')
-                update({
+                await update({
                     ...session,
                     user: {
                         ...session?.user,
                         accessToken: res?.data?.accessToken
                     }
                 })
+                return res?.data?.accessToken
             }
             else {
                 console.log('THE REFRESH TOKEN HAS EXPIRED')

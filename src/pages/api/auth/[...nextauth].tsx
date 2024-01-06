@@ -31,17 +31,17 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     pages: {
-        signIn:"/login",
+        signIn:"/connect/login",
     },
     jwt: {
         secret: process.env.ACCESS_TOKEN,
     },
     callbacks: {
         async redirect({ url, baseUrl }) {
-            if (url === baseUrl + '/login') {
+            if (url === baseUrl + '/connect/login' || url === baseUrl + '/connect/register') {
                 return baseUrl + '/main';
             } else {
-                return baseUrl + '/login';
+                return baseUrl + '/connect/login';
             }
         },
         async jwt({ token, user, trigger, session }) {

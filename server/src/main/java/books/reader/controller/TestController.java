@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/data")
+@RequestMapping("/test")
 public class TestController {
     
     private final MyEntityService myEntityService;
@@ -25,6 +25,14 @@ public class TestController {
     private static class Data {
         public String data;
     }
+    
+    @GetMapping
+    ResponseEntity<DataController.Response<?>> getJson() {
+        List<MyEntity> result = myEntityService.findAll();
+        DataController.Response<List<MyEntity>> response = new DataController.Response<>(true, result);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
 //
 //    @GetMapping
 //    ResponseEntity<Response<?>> getJson() {
