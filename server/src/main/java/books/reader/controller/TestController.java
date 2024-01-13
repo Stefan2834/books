@@ -1,7 +1,7 @@
 package books.reader.controller;
 
-import books.reader.mongo.MyEntity;
-import books.reader.mongo.MyEntityService;
+import books.reader.mongo.users.Users;
+import books.reader.mongo.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/test")
 public class TestController {
     
-    private final MyEntityService myEntityService;
+    private final UsersService myEntityService;
     
     @Autowired
-    public TestController(MyEntityService myEntityService) {
+    public TestController(UsersService myEntityService) {
         this.myEntityService = myEntityService;
     }
     
@@ -28,8 +28,8 @@ public class TestController {
     
     @GetMapping
     ResponseEntity<DataController.Response<?>> getJson() {
-        List<MyEntity> result = myEntityService.findAll();
-        DataController.Response<List<MyEntity>> response = new DataController.Response<>(true, result);
+        List<Users> result = myEntityService.findAll();
+        DataController.Response<List<Users>> response = new DataController.Response<>(true, result);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     

@@ -2,11 +2,10 @@ import React, { useState, FormEvent } from 'react'
 import { useDefault } from '@/contexts/Default'
 import axios from 'axios'
 import { signIn } from 'next-auth/react';
-import { IconButton, OutlinedInput, InputLabel, FormControl, InputAdornment,TextField, CircularProgress } from '@mui/material';
+import { IconButton, OutlinedInput, InputLabel, FormControl, InputAdornment, TextField, CircularProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Theme from '@/components/Theme';
 import { LoadingButton } from '@mui/lab';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function Login() {
@@ -24,7 +23,7 @@ export default function Login() {
         try {
             setLoading(true)
             const { username, pass, email } = login
-            const response = await axios.post(`${server}/login/login`, {
+            const response = await axios.put(`${server}/login`, {
                 username: username,
                 password: pass,
                 email: email
@@ -35,7 +34,8 @@ export default function Login() {
                 await signIn('credentials', {
                     username,
                     email,
-                    userRole: response?.data?.userRole
+                    userRole: response?.data?.userRole,
+                    coins: response?.data?.coins
                 });
                 setLogin({
                     email: '',
@@ -54,6 +54,7 @@ export default function Login() {
             setLoading(false)
         }
     }
+
 
     return (
         <div className={`w-full h-screen flex items-center justify-center ocean ${dark ? "ocean-dark" : "ocean-light"}`}>
@@ -144,7 +145,6 @@ export default function Login() {
                                     onClick={() => setShowPassword((show) => !show)}
                                     onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => e.preventDefault()}
                                     edge="end"
-
                                 >
                                     {showPassword ?
                                         <Visibility style={{ color: colors[1] }} />
@@ -171,7 +171,7 @@ export default function Login() {
                 </LoadingButton>
                 <div className='main-color-oposite'>
                     Nu ai un cont?
-                    <Link href='/connect/register' className='underline ml-2 text-lg' style={{color:"#711DB0"}}>
+                    <Link href='/connect/register' className='underline ml-2 text-lg' style={{ color: "#711DB0" }}>
                         Crează unul
                     </Link>
                 </div>

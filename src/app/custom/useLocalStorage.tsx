@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 
 const getTodos = (key: string, initialValue: any) => {
-    const savedValue = localStorage.getItem(key)
-
-    if (savedValue) return JSON.parse(savedValue)
-
-    return initialValue
+    if (typeof window !== 'undefined') {
+        const savedValue = localStorage.getItem(key);
+        if (savedValue) return JSON.parse(savedValue);
+    }
+    return initialValue;
 }
 
 const useLocalStorage = (key: string, initialValue: any) => {

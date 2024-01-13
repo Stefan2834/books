@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import useAxiosAuth from '@/app/custom/useAxios';
+import axios from 'axios';
+
+
 export default function Custom() {
-    const axios = useAxiosAuth();
 
 
     const [data, setData] = useState<{ username: string }[]>([]);

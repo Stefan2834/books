@@ -15,7 +15,7 @@
     flex-direction: column;
     overflow: hidden;
     z-index: 10;
-    width: 320px;
+    width: 288px;
 }
 
 .navbarClosed {

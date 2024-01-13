@@ -1,11 +1,13 @@
-package books.reader.mongo;
+package books.reader.mongo.users;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 
 @Document(collection = "users")
-public class MyEntity {
+public class Users {
     
     
     @Id
@@ -14,7 +16,13 @@ public class MyEntity {
     public String password;
     public String email;
     public String userRole;
-    public String avatar;
+    public int coins;
+    public List<Reading> reading;
     
+    public static class Reading {
+        public String _id;
+        public String chapter;
+        public int page;
+    }
     
 }

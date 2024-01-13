@@ -32,11 +32,10 @@ export default function Login() {
                 setError("Password don't match")
                 return
             }
-            const response = await axios.post(`${server}/login/register`, {
+            const response = await axios.post(`${server}/login`, {
                 username: username,
                 password: pass,
                 email: email,
-                avatar: ''
             })
             if (!response?.data?.success) {
                 console.log(response)

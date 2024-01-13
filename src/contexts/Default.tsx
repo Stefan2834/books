@@ -31,7 +31,7 @@ export function useDefault() {
     return context;
 }
 
-const Colors = ["#101010", "#f6f6f6"]
+const Colors = ["#101010", "#f6f6f6", "#1f1f1f", "#e4e4e4"]
 
 export function DefaultProvider({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession()
@@ -39,11 +39,18 @@ export function DefaultProvider({ children }: { children: ReactNode }) {
     const [error, setError] = useState<null | string>(null)
     const [success, setSuccess] = useState<null | string>(null)
     const [navbar, setNavbar] = useState<boolean>(false);
-    const [phone, setPhone] = useState<boolean>(window.innerWidth < 1000 ? true : false)
+    const [phone, setPhone] = useState<boolean>(false)
     const [dark, setDark] = useLocalStorage('dark', false)
     const [colors, setColors] = useState<string[]>([Colors[0], Colors[1]])
 
 
+    useEffect(() => {
+        if(typeof window !== 'undefined'){
+            window.addEventListener('resize', () => {
+                setPhone(window?.innerWidth < 1000 ? true : false)
+            })
+        }
+    }, [])
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -55,11 +62,15 @@ export function DefaultProvider({ children }: { children: ReactNode }) {
         if (dark) {
             document.documentElement.style.setProperty('--main', Colors[0]);
             document.documentElement.style.setProperty('--main-oposite', Colors[1]);
-            setColors([Colors[0], Colors[1]])
+            document.documentElement.style.setProperty('--second', Colors[2]);
+            document.documentElement.style.setProperty('--second-oposite', Colors[3]);
+            setColors([Colors[0], Colors[1], Colors[2], Colors[3]])
         } else {
             document.documentElement.style.setProperty('--main', Colors[1]);
             document.documentElement.style.setProperty('--main-oposite', Colors[0]);
-            setColors([Colors[1], Colors[0]])
+            document.documentElement.style.setProperty('--second', Colors[3]);
+            document.documentElement.style.setProperty('--second-second', Colors[2]);
+            setColors([Colors[1], Colors[0], Colors[3], Colors[2]])
         }
     }, [dark])
 

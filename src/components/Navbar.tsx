@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from '../css/Navbar.module.css'
-import { Button, Divider } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,12 +14,12 @@ import {
     Paper,
     Toolbar,
     AppBar,
+    Badge, Button, Divider
 } from '@mui/material';
 
 
-import home from '../svg/light/double-right.svg'
+
 import mail from '../svg/light/double-right.svg'
-import settings from '../svg/light/double-right.svg'
 import search from '../svg/light/double-right.svg'
 import message from '../svg/light/double-right.svg'
 import userImg from '../svg/light/double-right.svg'
@@ -43,34 +42,29 @@ import doubleRightDark from '../svg/dark/double-right.svg'
 import logout from '../svg/light/logout.svg'
 import user from '../svg/light/user.svg'
 import money from '../svg/light/paper-money-two.svg'
-import lightning from '../svg/light/lightning.svg'
+import home from '../svg/light/home.svg'
+import read from '../svg/light/notebook.svg'
+import write from '../svg/light/write.svg'
+import favorite from '../svg/light/bookmark.svg'
+import settings from '../svg/light/setting-two.svg'
 
 
 import logoutDark from '../svg/dark/logout.svg'
 import userDark from '../svg/dark/user.svg'
 import moneyDark from '../svg/dark/paper-money-two.svg'
-import lightningDark from '../svg/dark/lightning.svg'
+import homeDark from '../svg/dark/home.svg'
+import readDark from '../svg/dark/notebook.svg'
+import writeDark from '../svg/dark/write.svg'
+import favoriteDark from '../svg/dark/bookmark.svg'
+import settingsDark from '../svg/dark/setting-two.svg'
+
+import logo from '../svg/logo2.png'
 
 
 export default function Navbar() {
-    const { navbar, setNavbar, phone, setPhone, colors, dark } = useDefault();
+    const { navbar, setNavbar, phone, colors, dark } = useDefault();
     const router = useRouter()
     const { data: session } = useSession()
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 1000) {
-                setPhone(true)
-            } else {
-                setPhone(false)
-            }
-        }
-        window.addEventListener("resize", handleResize)
-
-        return () => {
-            window.removeEventListener("resize", handleResize)
-        }
-    }, [])
 
 
 
@@ -96,16 +90,7 @@ export default function Navbar() {
                                         className='w-16 h-10 cursor-pointer'
                                     >
                                         <Image src={dark ? moneyDark : money} alt='Poza' width='30' height='30' />
-                                        <div className='ml-2'>60</div>
-                                    </Button>
-                                    <Button sx={{
-                                        margin: "0 4px", width: "90px", color: colors[1],
-                                        fontWeight: "600", fontSize: "16px", lineHeight: "18px"
-                                    }} onClick={() => router.push("/main")}
-                                        className='w-16 h-10 cursor-pointer'
-                                    >
-                                        <Image src={dark ? lightningDark : lightning} alt='Poza' width='30' height='30' />
-                                        <div className='ml-2'>145</div>
+                                        <div className='ml-2'>{session?.user?.coins}</div>
                                     </Button>
                                     <div className='flex items-center justify-center pl-6 mx-10'>
                                         <Theme />
@@ -132,91 +117,81 @@ export default function Navbar() {
                         </>
                     )}
                     <div className={`${navbar ? styles.navbar : styles.navbarClosed} trans-cubic ${router.asPath.includes("/connect") ? "h-full mt-0" : "h-[calc(100% - 56px)] mt-14"}`}>
-                        <Button sx={{ textTransform: 'none', position: "absolute", left: 20, color: colors[1], transition: "400ms ease" }}
+                        <Button sx={{ position: "absolute", left: 20, color: colors[1], transition: "400ms ease" }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute top-2'
+                            onClick={() => router.push('/main')}
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                                <Image src={logo} alt='Poza' width='40' height='40' />
                             </div>
                             <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Books</div>
                         </Button>
                         <Divider orientation="horizontal" flexItem sx={{ backgroundColor: colors[1], mb: 1 }} />
                         <Link href={'/main/home'} style={{
-                            textTransform: 'none', color: colors[1],
+                            color: colors[1],
                             margin: "8px 0", position: 'relative', left: -10
                         }}
-                            className='w-64 h-14cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
+                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt="Poza" width="40" height="40" />
+                                <Image src={dark ? homeDark : home} alt="Poza" width='35' height="35" />
                             </div>
-                            <div className={`h-10 w-60 ${router.asPath === '/main/home' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Home</div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/home' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Acasa</div>
                         </Link>
                         <Link href={'/main/messages'} style={{
-                            textTransform: 'none', color: colors[1],
+                            color: colors[1],
                             margin: "8px 0", position: 'relative', left: -10
                         }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                                <Image src={dark ? readDark : read} alt='Poza' width='35' height='35' />
                             </div>
-                            <div className={`h-10 w-60 ${router.asPath.includes('/main/messages') ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Messages</div>
+                            <div className={`h-10 w-60 ${router.asPath.includes('/main/messages') ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Citeste</div>
                         </Link>
                         <Link href={'/main/users'} style={{
-                            textTransform: 'none', color: colors[1],
+                            color: colors[1],
                             margin: "8px 0", position: 'relative', left: -10
                         }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                                <Image src={dark ? favoriteDark : favorite} alt='Poza' width='35' height='35' />
                             </div>
-                            <div className={`h-10 w-60 ${router.asPath === '/main/users' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Users</div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/users' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Favorite</div>
                         </Link>
                         <Link href={'/main/notifications'} style={{
-                            textTransform: 'none', color: colors[1],
+                            color: colors[1],
                             margin: "8px 0", position: 'relative', left: -10
                         }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                                <Image src={dark ? writeDark : write} alt='Poza' width='35' height='35' />
                             </div>
-                            <div className={`h-10 w-60 ${router.asPath === '/main/notifications' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Notifications</div>
-                        </Link>
-                        <Link href={`/main/users/`} style={{
-                            textTransform: 'none', color: colors[1],
-                            margin: "8px 0", position: 'relative', left: -10
-                        }}
-                            className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
-                        >
-                            <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
-                            </div>
-                            <div className={`h-10 w-60 ${router.asPath === `/main/users/` ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Profile</div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/notifications' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Scrie</div>
                         </Link>
                         <Link href={'/main/settings'} style={{
-                            textTransform: 'none', color: colors[1],
+                            color: colors[1],
                             margin: "8px 0", position: 'relative', left: -10
                         }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 transition'
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
-                                <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' />
+                                <Image src={dark ? settingsDark : settings} alt='Poza' width='35' height='35' />
                             </div>
-                            <div className={`h-10 w-60 ${router.asPath === '/main/settings' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Settings</div>
+                            <div className={`h-10 w-60 ${router.asPath === '/main/settings' ? 'font-bold' : 'font-normal'} text-xl flex items-center ml-8`}>Setari</div>
                         </Link>
                         <Divider orientation="horizontal" flexItem sx={{ backgroundColor: colors[1], mt: 1 }} />
-                        <Button sx={{ textTransform: 'none', position: "absolute", color: colors[1], transition: "400ms ease", left: 20 }}
+                        <Button sx={{ position: "absolute", color: colors[1], transition: "400ms ease", left: 20 }}
                             className='w-64 h-14 cursor-pointer flex items-center justify-start hover:translate-x-2 absolute bottom-2'
                             onClick={() => setNavbar(!navbar)}
                         >
                             <div className='h-10 w-14 mx-2 flex items-center'>
                                 {navbar ? (
-                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' className='rotate-180 transition' />
+                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='35' height='35' className='rotate-180 transition' />
                                 ) : (
-                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='40' height='40' className='transition' />
+                                    <Image src={dark ? doubleRightDark : doubleRight} alt='Poza' width='35' height='35' className='transition' />
                                 )}
                             </div>
                             <div className='h-10 w-60 font-normal text-xl flex items-center ml-8'>Collapse</div>

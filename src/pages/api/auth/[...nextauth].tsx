@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -12,29 +11,24 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials: any, req: any) {
-                const user = await axios.post(`${process.env.NEXT_PUBLIC_SERVER}/login/token`, {
-                    username: credentials.username,
-                    email: credentials.email
-                })
-                if (user?.data?.success) {
+                try {
                     return {
                         username: credentials?.username,
                         email: credentials?.email,
-                        accessToken: user?.data?.accessToken,
-                        refreshToken: user?.data?.refreshToken,
-                        userRole: credentials?.userRole
+                        userRole: credentials?.userRole,
+                        coins: credentials?.coins,
                     }
-                } else {
+                } catch (err) {
                     return req
                 }
             }
         }),
     ],
-    pages: {
-        signIn:"/connect/login",
-    },
     jwt: {
         secret: process.env.ACCESS_TOKEN,
+    },
+    pages: {
+        signIn: "/connect/login",
     },
     callbacks: {
         async redirect({ url, baseUrl }) {
@@ -44,17 +38,11 @@ export const authOptions: NextAuthOptions = {
                 return baseUrl + '/connect/login';
             }
         },
-        async jwt({ token, user, trigger, session }) {
-
-            if (trigger === "update") {
-                return { ...token, ...session.user }
-            } 
+        async jwt({ token, user }) {
             return { ...token, ...user };
         },
         async session({ session, token }) {
-            if (token.accessToken) {
-                session.user = token as any;
-            }
+            session.user = token as any;
             return session;
         },
     },
