@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
 import Adjustable from '@/components/Adjustable';
 import useLocalStorage from '@/app/custom/useLocalStorage';
+import { useRouter } from 'next/router';
 
 interface DefaultContextValue {
     server: string;
@@ -45,12 +46,13 @@ export function DefaultProvider({ children }: { children: ReactNode }) {
 
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
+        if (typeof window !== 'undefined') {
             window.addEventListener('resize', () => {
                 setPhone(window?.innerWidth < 1000 ? true : false)
             })
         }
     }, [])
+
 
     useEffect(() => {
         if (status === "authenticated") {

@@ -32,7 +32,8 @@ type StoryType = {
     }[];
     rating: number;
     reading: {
-        page: number
+        page: number,
+        chapter: string
     } | null,
 }
 
@@ -96,7 +97,7 @@ export default function ({ story }: StoryProps) {
                             <div className='w-1/2 flex items-center justify-center'>
                                 {story?.reading ? (
                                     <>
-                                        {story?.reading.page === 1 ? (
+                                        {story?.reading.page === 1 && story?.reading?.chapter === "main" ? (
                                             <Button sx={{ color: colors[1], fontSize: "18px", fontWeight: "600", m: 0, borderColor: colors[1], ":hover": { borderColor: colors[1] } }}
                                                 endIcon={<KeyboardDoubleArrowRight />}
                                                 variant="outlined"
@@ -105,13 +106,24 @@ export default function ({ story }: StoryProps) {
                                                 Incepe sa citesti
                                             </Button>
                                         ) : (
-                                            <Button sx={{ color: colors[1], fontSize: "18px", fontWeight: "600", m: 0 }}
-                                                endIcon={<KeyboardDoubleArrowRight />}
-                                                variant="outlined"
-                                                onClick={() => router.push(`/main/story/${story._id}/read?chapter=main&page=${story?.reading?.page}`)}
-                                            >
-                                                Continua de la pagina {story?.reading.page}
-                                            </Button>
+                                            <div className='flex flex-col'>
+                                                <Button sx={{ color: colors[1], fontSize: "18px", fontWeight: "600", my: 1 }}
+                                                    endIcon={<KeyboardDoubleArrowRight />}
+                                                    variant="outlined"
+                                                    onClick={() => router.push(`/main/story/${story._id}/read?chapter=${story?.reading?.chapter}&page=${story?.reading?.page}`)}
+                                                >
+                                                    Continua sa citesti
+                                                </Button>
+                                                {story.reading.chapter.includes("ending") && (
+                                                    <Button sx={{ color: colors[1], fontSize: "18px", fontWeight: "600", my: 1 }}
+                                                        endIcon={<KeyboardDoubleArrowRight />}
+                                                        variant="outlined"
+                                                        // onClick={() => router.push(`/main/story/${story._id}/read?chapter=main&page=${story?.reading?.page}`)}
+                                                    >
+                                                        Reseteaza povestea
+                                                    </Button>
+                                                )}
+                                            </div>
                                         )}
                                     </>
                                 ) : (
@@ -123,7 +135,8 @@ export default function ({ story }: StoryProps) {
                         </div>
                     </div>
                 </div>
-                <div className='w-full h-screen main mt-8'>
+                <div className='w-full h-screen main mt-8 main-color-oposite'>
+                    a
                 </div>
             </div>
         )
@@ -164,7 +177,7 @@ export const getServerSideProps: GetServerSideProps<StoryProps> = async (context
         return {
             props: {
                 story: null,
-                error: err?.response?.data?.data  || null
+                error: err?.response?.data?.data || null
             }
         }
     }

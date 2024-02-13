@@ -99,10 +99,10 @@ body {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #72727200), var(--tw-ring-shadow, 0 0 #72727200), var(--tw-shadow);
 }
 
-.flex2 {
-  flex-grow:2
+.read-slide {
+  height: 200px !important;
 }
 
-.flex1 {
-  flex-grow:1
+.read-content {
+  height: 160px !important;
 }

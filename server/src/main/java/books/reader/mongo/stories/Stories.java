@@ -1,5 +1,6 @@
 package books.reader.mongo.stories;
 
+import books.reader.mongo.users.Users;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,6 +34,7 @@ public class Stories {
     public static class Chapters {
         public List<Page> pages;
         public String index;
+        public String name;
         
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public static class Page {
@@ -50,10 +52,11 @@ public class Stories {
             @JsonInclude(JsonInclude.Include.NON_EMPTY)
             public static class Option {
                 public String text;
-                public String ability;
-                public Integer change;
                 public String goTo;
+                public Users.Abilities cost;
+                public Users.Abilities earn;
             }
+            
 
 
         }
