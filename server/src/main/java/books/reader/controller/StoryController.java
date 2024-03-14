@@ -68,6 +68,33 @@ public class StoryController {
         }
     }
     
+    @PutMapping("/{id}")
+    ResponseEntity<Response<?>> deleteStory(@PathVariable String id, @RequestBody Data data) {
+        Users user = usersService.findByUsername(data.username);
+
+        if (user != null) {
+            Users.Reading target = user.reading.stream()
+                    .filter(reading -> reading._id.equals(id))
+                    .findFirst()
+                    .orElse(null);
+            if (target != null) {
+                target.chapter = "main";
+                target.allowedChapters = List.of("main");
+                target.page = 1;
+                target.abilities.normalizeAbilities();
+                usersService.save(user);
+                Response<String> response = new Response<>(true, "story reset successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            } else {
+                Response<String> response = new Response<>(false, "no story found");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+            }
+        } else {
+            Response<String> response = new Response<>(false, "no user found");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+    
     @PostMapping("/read")
     ResponseEntity<Response<?>> getChapter(@RequestBody Data data) {
         Users user = usersService.findByUsername(data.username);
@@ -84,7 +111,7 @@ public class StoryController {
                         .orElse(null));
                 Response<Stories.Chapters> response = new Response<>(true, chapter);
                 response.characters = stories.characters;
-                response.name = stories.name;
+                response.name = stories.name; 
                 response.abilities = target.abilities;
                 response.page = target.page;
                 response.chapter = target.chapter;

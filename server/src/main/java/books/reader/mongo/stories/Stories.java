@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Document(collection = "stories")
@@ -25,9 +24,9 @@ public class Stories {
     
     public record Character(String name, String image, String color) {
     }
-    
     public record Reviews(String user, String message, float rating) {
     }
+    
     
     
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
